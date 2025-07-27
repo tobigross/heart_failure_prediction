@@ -1,0 +1,4 @@
+Goals of the Project:
+- Explore data in with pandas and seaborn
+- Build ML model that can predict heartdiseas from data set
+- Use SQL in data storage and interface with Python
