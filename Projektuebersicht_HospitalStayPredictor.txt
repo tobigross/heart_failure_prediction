@@ -1,0 +1,87 @@
+
+Projektübersicht: Hospital Stay & Readmission Predictor
+
+📌 Projektname
+Hospital Stay & Readmission Predictor
+
+🧭 Ziel des Projekts
+Entwicklung eines End-to-End-Systems zur Analyse und Vorhersage von Krankenhausaufenthalten und Rückfallrisiken anhand realer Patientendaten. Das System besteht aus:
+- Datenbankstrukturierung
+- Datenanalyse & Feature Engineering
+- Machine Learning Modellierung
+- API zur Modellabfrage
+- Web-Dashboard zur Visualisierung
+- Deployment in der Cloud
+
+🎯 Projektziele
+- Import & Aufbereitung von Krankenhausdaten (z. B. CMS-Daten von Kaggle)
+- Analyse relevanter Merkmale wie Alter, Klinikbewertung, Diagnosecodes
+- Vorhersage von Aufenthaltsdauer oder Rückfallerisiko
+- Bereitstellung des Modells über eine REST-API
+- Interaktive Visualisierung der Daten & Modell-Output über ein Web-Dashboard
+- Vollständige Projektstruktur mit Git, CI/CD, Docker und optionaler Cloud-Bereitstellung
+
+🛠️ Eingesetzte Technologien
+
+🗃️ Datenanalyse & Feature Engineering
+- Python (pandas, numpy, seaborn, matplotlib)
+- Jupyter Notebooks
+- Scikit-learn für Vorverarbeitung und Modellierung
+
+🤖 Machine Learning
+- Scikit-learn (RandomForest, Logistic Regression, etc.)
+- PyTorch (optional, für erweiterte Modelle)
+- Joblib (für Modell-Serialisierung)
+- MLflow (optional für Modelltracking)
+
+🌐 API (Modell-Backend)
+- FastAPI
+- Uvicorn
+- Pydantic (für Datenvalidierung)
+
+📊 Dashboard (Frontend)
+- Streamlit (interaktives Web-Interface)
+- Alternativ: Power BI oder Tableau (Business-orientierte BI-Variante)
+
+🐘 Datenbank
+- PostgreSQL (optional, für strukturierte Speicherung von Patientendaten)
+- SQLite (lokale Alternative)
+
+🐳 Deployment & DevOps
+- Docker (Containerisierung)
+- Git & GitHub
+- GitHub Actions (für CI/CD Workflows)
+- AWS EC2 / S3 (optional für Cloud-Deployment)
+
+🧪 Testing
+- PyTest (Unit Tests für API und ML-Funktionen)
+- GitHub Actions (Automatisiertes Testen bei jedem Push)
+
+📂 Projektstruktur (Beispiel)
+
+hospital-stay-predictor/
+├── data/                # Roh- und Beispieldaten
+├── notebooks/           # EDA, Feature Engineering, Modelltraining
+├── ml/                  # ML-Modelle, Preprocessing
+├── api/                 # FastAPI REST-Service
+├── dashboard/           # Streamlit-Dashboard
+├── tests/               # Unit Tests
+├── docker/              # Dockerfiles
+├── .github/             # GitHub Actions Workflows
+├── README.md
+└── requirements.txt
+
+📈 Projektergebnis
+- GitHub-Repository mit Dokumentation
+- Funktionsfähige API & Web-App lokal oder in der Cloud
+- Visualisierungen & Reports für medizinische Entscheider
+- Relevantes Portfolio-Projekt für Bewerbungen im Bereich Data Science, HealthTech oder Softwareentwicklung
+
+🔗 Datenquelle
+Kaggle-Datensatz:
+CMS Hospital General Information: https://www.kaggle.com/datasets/cms/hospital-general-information
+
+👨‍💻 Empfohlene Erweiterungen (optional)
+- Einbindung von MIMIC-Daten (für tiefere Analysen)
+- Logging & Monitoring (z. B. mit Prometheus/Grafana)
+- Benutzerverwaltung mit Authentifizierung
