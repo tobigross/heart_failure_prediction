@@ -16,19 +16,46 @@ class MySklearnModel(BaseEstimator):
     """
     def __init__(self, **kwargs):
         # Set model parameters here
+        """
+        Initialize the model with optional parameters.
+        
+        Parameters:
+            **kwargs: Arbitrary keyword arguments for model configuration.
+        """
         pass
 
     def fit(self, X, y):
         # Train your model here
+        """
+        Fits the model to the provided training data.
+        
+        Parameters:
+            X: Training input features.
+            y: Target values corresponding to the input features.
+        """
         pass
 
     def predict(self, X):
         # Predict using your model here
+        """
+        Generate predictions for the input data using the model.
+        
+        Parameters:
+            X: Input features for which predictions are to be made.
+        
+        Returns:
+            Predicted values corresponding to the input data.
+        """
         pass
 
 def train_and_save_sklearn_model(X_train, y_train, save_path):
     """
-    Train and save an sklearn model.
+    Train a scikit-learn model on the provided data and save it to disk.
+    
+    Parameters:
+    	X_train: Training feature data.
+    	y_train: Training target labels.
+    	save_path (str): File path where the trained model will be saved.
     """
     model = MySklearnModel()
     model.fit(X_train, y_train)
@@ -37,7 +64,13 @@ def train_and_save_sklearn_model(X_train, y_train, save_path):
 
 def load_sklearn_model(load_path):
     """
-    Load a saved sklearn model.
+    Load a scikit-learn model from the specified file path.
+    
+    Parameters:
+        load_path (str): Path to the saved model file.
+    
+    Returns:
+        model: The loaded scikit-learn model instance.
     """
     return joblib.load(load_path)
 
@@ -51,6 +84,12 @@ class MyTorchModel(nn.Module):
     Replace with your own architecture.
     """
     def __init__(self, input_dim):
+        """
+        Initialize a simple feedforward neural network with one hidden layer.
+        
+        Parameters:
+            input_dim (int): The number of input features for the model.
+        """
         super().__init__()
         self.layers = nn.Sequential(
             nn.Linear(input_dim, 32),
@@ -59,11 +98,27 @@ class MyTorchModel(nn.Module):
         )
 
     def forward(self, x):
+        """
+        Performs a forward pass through the neural network using the input tensor.
+        
+        Parameters:
+            x (torch.Tensor): Input tensor to the model.
+        
+        Returns:
+            torch.Tensor: Output tensor after passing through the network layers.
+        """
         return self.layers(x)
 
 def train_and_save_torch_model(X_train, y_train, input_dim, save_path, epochs=10):
     """
-    Train and save a PyTorch model.
+    Trains a PyTorch model on the provided data and saves its state dictionary to disk.
+    
+    Parameters:
+        X_train: Training input data.
+        y_train: Training target data.
+        input_dim: The number of input features for the model.
+        save_path: File path where the trained model's state dictionary will be saved.
+        epochs: Number of training epochs (default is 10).
     """
     model = MyTorchModel(input_dim)
     # Add your training loop here
@@ -75,7 +130,14 @@ def train_and_save_torch_model(X_train, y_train, input_dim, save_path, epochs=10
 
 def load_torch_model(load_path, input_dim):
     """
-    Load a saved PyTorch model.
+    Load a saved PyTorch model from disk and prepare it for inference.
+    
+    Parameters:
+        load_path (str): Path to the saved model state dictionary file.
+        input_dim (int): Input dimension required to initialize the model architecture.
+    
+    Returns:
+        MyTorchModel: The loaded PyTorch model set to evaluation mode.
     """
     model = MyTorchModel(input_dim)
     model.load_state_dict(torch.load(load_path, map_location=torch.device('cpu')))
