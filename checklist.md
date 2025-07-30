@@ -25,10 +25,10 @@
 
 ## 3. Automatisierung
 
-- [ ] Erstelle ein ETL-Skript (`etl_predict.py`):
-  - [ ] Lade Daten
-  - [ ] Berechne Vorhersagen
-  - [ ] Speichere in SQL
+- [x] Erstelle ein ETL-Skript (`etl_predict.py`):
+  - [x] Lade Daten
+  - [x] Berechne Vorhersagen
+  - [x] Speichere in SQL
 - [ ] Zeitgesteuert ausführen:
   - [ ] Windows Task Scheduler / cron
 - [ ] CI/CD mit GitHub Actions (optional):
