@@ -7,7 +7,7 @@ from sqlalchemy import create_engine, text
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
+#add load and predict function here,,,,
 def load_pytorch_model(model_path, input_dim=20):
     """Load a PyTorch model from file."""
     model = HeartModel(input_dim=input_dim)
