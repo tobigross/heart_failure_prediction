@@ -120,11 +120,26 @@ class MiniModelETL:
                 models[name] = None
         
         # Load training columns
-        with open(self.COLUMNS_PATH) as f:
-            training_columns = [line.strip() for line in f if line.strip()]
-        
+        # Load training columns
+        try:
+            with open(self.COLUMNS_PATH) as f:
+                training_columns = [line.strip() for line in f if line.strip()]
+        except FileNotFoundError:
+            logger.error(f"Training columns file not found: {self.COLUMNS_PATH}")
+            raise
+        except Exception as e:
+            logger.error(f"Error reading training columns: {e}")
+            raise
+
         # Load data
-        data = pd.read_csv(self.DATA_PATH)
+        try:
+            data = pd.read_csv(self.DATA_PATH)
+        except FileNotFoundError:
+            logger.error(f"Data file not found: {self.DATA_PATH}")
+            raise
+        except Exception as e:
+            logger.error(f"Error reading data file: {e}")
+            raise
         print(f"Loaded {len(data)} rows of data")
         
         return models, training_columns, data
