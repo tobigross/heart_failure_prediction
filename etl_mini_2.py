@@ -27,6 +27,9 @@ def load_pytorch_model(model_path, input_dim=20):
 
 def predict_pytorch(model, data):
     """Predict using a PyTorch model."""
+    if model is None:
+        return [None] * len(data)
+
     tensor = torch.tensor(data.to_numpy(), dtype=torch.float32)
     with torch.no_grad():
         outputs = model(tensor)
