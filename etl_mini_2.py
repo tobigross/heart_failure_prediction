@@ -58,14 +58,15 @@ class MiniModelETL:
         self.COLUMNS_PATH = "ml/training_columns.txt"
         self.DATA_PATH = "data/heart.csv"
         self.db_config = {
-            "host": "localhost",
-            "port": 5432,
-            "dbname": "patients",
-            "user": "postgres",
-            "password": "xamyadt123"
+            "host": os.environ.get("DB_HOST", "localhost"),
+            "port": int(os.environ.get("DB_PORT", "5432")),
+            "dbname": os.environ.get("DB_NAME", "patients"),
+            "user": os.environ.get("DB_USER", "postgres"),
+            "password": os.environ.get("DB_PASSWORD")
         }
         self.table_name = "heart_predictions_mini"
-        
+        if not self.db_config["password"]:
+            raise ValueError("DB_PASSWORD environment variable must be set")
         # SQLAlchemy connection string
         self.engine = create_engine(
             f"postgresql+psycopg2://{self.db_config['user']}:{self.db_config['password']}@{self.db_config['host']}:{self.db_config['port']}/{self.db_config['dbname']}"
