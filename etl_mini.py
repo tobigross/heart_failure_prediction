@@ -5,6 +5,7 @@ import joblib
 from ml.model import HeartModel
 from sqlalchemy import create_engine, text
 
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 #add load and predict function here,,,,
@@ -29,7 +30,6 @@ def load_sklearn_model(model_path):
 def predict_sklearn(model, data):
     """Predict using a scikit-learn model."""
     return model.predict(data).tolist()
-
 class MiniModelETL:
     """Minimal ETL pipeline for comparing PyTorch and sklearn model predictions."""
     def __init__(self):
@@ -55,6 +55,14 @@ class MiniModelETL:
             },
             "sklearn": {
                 "load": lambda: load_sklearn_model("ml/model_sklearn.pkl"),
+                "predict": predict_sklearn
+            },
+            "sklearn_boost": {
+                "load": lambda: load_sklearn_model("ml/gradient_boost_default.pkl"),
+                "predict": predict_sklearn
+            },
+            "sklearn_boost": {
+                "load": lambda: load_sklearn_model("ml/gradient_boost_tuned.pkl"),
                 "predict": predict_sklearn
             }
         }
