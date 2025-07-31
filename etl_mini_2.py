@@ -146,7 +146,8 @@ class MiniModelETL:
     
     def transform_data(self, data, training_columns):
         """One-hot encode and align columns."""
-        data_encoded = pd.get_dummies(data.drop(columns=["HeartDisease"]))
+        columns_to_drop = ["HeartDisease"] if "HeartDisease" in data.columns else []
+        data_encoded = pd.get_dummies(data.drop(columns=columns_to_drop))
         data_encoded = data_encoded.reindex(columns=training_columns, fill_value=0)
         return data_encoded.astype(float)
     
