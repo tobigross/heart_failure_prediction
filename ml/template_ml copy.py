@@ -41,46 +41,7 @@ def load_sklearn_model(load_path):
     """
     return joblib.load(load_path)
 
-# For PyTorch models
-import torch
-import torch.nn as nn
 
-class MyTorchModel(nn.Module):
-    """
-    Example PyTorch model class.
-    Replace with your own architecture.
-    """
-    def __init__(self, input_dim):
-        super().__init__()
-        self.layers = nn.Sequential(
-            nn.Linear(input_dim, 32),
-            nn.ReLU(),
-            nn.Linear(32, 2)
-        )
-
-    def forward(self, x):
-        return self.layers(x)
-
-def train_and_save_torch_model(X_train, y_train, input_dim, save_path, epochs=10):
-    """
-    Train and save a PyTorch model.
-    """
-    model = MyTorchModel(input_dim)
-    # Add your training loop here
-    # Example: optimizer, loss, etc.
-    # for epoch in range(epochs):
-    #     ...
-    torch.save(model.state_dict(), save_path)
-    print(f"Model saved to {save_path}")
-
-def load_torch_model(load_path, input_dim):
-    """
-    Load a saved PyTorch model.
-    """
-    model = MyTorchModel(input_dim)
-    model.load_state_dict(torch.load(load_path, map_location=torch.device('cpu')))
-    model.eval()
-    return model
 
 # Example usage (uncomment and adapt as needed):
 # X_train, y_train = ... # Load your data
