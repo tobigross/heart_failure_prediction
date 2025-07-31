@@ -5,12 +5,19 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 # Load and prepare data (same as your existing logic)
-data = pd.read_csv("data/heart.csv")
-data_encoded = pd.get_dummies(data.drop(columns=["HeartDisease"]))
+try:
+    data = pd.read_csv("data/heart.csv")
+    data_encoded = pd.get_dummies(data.drop(columns=["HeartDisease"]))
 
-# Load training columns
-with open("ml/training_columns.txt") as f:
-    training_columns = [line.strip() for line in f if line.strip()]
+    # Load training columns
+    with open("ml/training_columns.txt") as f:
+        training_columns = [line.strip() for line in f if line.strip()]
+except FileNotFoundError as e:
+    print(f"Required file not found: {e}")
+    raise
+except Exception as e:
+    print(f"Error loading data: {e}")
+    raise
 
 X = data_encoded.reindex(columns=training_columns, fill_value=0).astype(float)
 y = data["HeartDisease"]

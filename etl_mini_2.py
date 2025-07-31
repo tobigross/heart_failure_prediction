@@ -13,13 +13,23 @@ logger = logging.getLogger(__name__)
 
 def load_pytorch_model(model_path, input_dim=20):
     """Load a PyTorch model from file."""
-    model = HeartModel(input_dim=input_dim)
-    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
-    model.eval()
-    return model
+    if not os.path.exists(model_path):
+        return None
+
+    try:
+        model = HeartModel(input_dim=input_dim)
+        model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+        model.eval()
+        return model
+    except Exception as e:
+        logger.error(f"Error loading PyTorch model {model_path}: {e}")
+        return None
 
 def predict_pytorch(model, data):
     """Predict using a PyTorch model."""
+    if model is None:
+        return [None] * len(data)
+
     tensor = torch.tensor(data.to_numpy(), dtype=torch.float32)
     with torch.no_grad():
         outputs = model(tensor)
@@ -111,18 +121,34 @@ class MiniModelETL:
                 models[name] = None
         
         # Load training columns
-        with open(self.COLUMNS_PATH) as f:
-            training_columns = [line.strip() for line in f if line.strip()]
-        
+        # Load training columns
+        try:
+            with open(self.COLUMNS_PATH) as f:
+                training_columns = [line.strip() for line in f if line.strip()]
+        except FileNotFoundError:
+            logger.error(f"Training columns file not found: {self.COLUMNS_PATH}")
+            raise
+        except Exception as e:
+            logger.error(f"Error reading training columns: {e}")
+            raise
+
         # Load data
-        data = pd.read_csv(self.DATA_PATH)
+        try:
+            data = pd.read_csv(self.DATA_PATH)
+        except FileNotFoundError:
+            logger.error(f"Data file not found: {self.DATA_PATH}")
+            raise
+        except Exception as e:
+            logger.error(f"Error reading data file: {e}")
+            raise
         print(f"Loaded {len(data)} rows of data")
         
         return models, training_columns, data
     
     def transform_data(self, data, training_columns):
         """One-hot encode and align columns."""
-        data_encoded = pd.get_dummies(data.drop(columns=["HeartDisease"]))
+        columns_to_drop = ["HeartDisease"] if "HeartDisease" in data.columns else []
+        data_encoded = pd.get_dummies(data.drop(columns=columns_to_drop))
         data_encoded = data_encoded.reindex(columns=training_columns, fill_value=0)
         return data_encoded.astype(float)
     
