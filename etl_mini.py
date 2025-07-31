@@ -57,14 +57,18 @@ class MiniModelETL:
                 "load": lambda: load_sklearn_model("ml/model_sklearn.pkl"),
                 "predict": predict_sklearn
             },
-            "sklearn_boost": {
-                "load": lambda: load_sklearn_model("ml/gradient_boost_default.pkl"),
-                "predict": predict_sklearn
-            },
-            "sklearn_boost": {
-                "load": lambda: load_sklearn_model("ml/gradient_boost_tuned.pkl"),
-                "predict": predict_sklearn
-            }
+        "sklearn": {
+            "load": lambda: load_sklearn_model("ml/model_sklearn.pkl"),
+            "predict": predict_sklearn
+        },
+        "sklearn_boost_default": {
+            "load": lambda: load_sklearn_model("ml/gradient_boost_default.pkl"),
+            "predict": predict_sklearn
+        },
+        "sklearn_boost_tuned": {
+            "load": lambda: load_sklearn_model("ml/gradient_boost_tuned.pkl"),
+            "predict": predict_sklearn
+        }
         }
     def extract_data(self):
         """Load models, training columns, and data."""
