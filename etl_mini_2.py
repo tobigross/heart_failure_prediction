@@ -174,6 +174,11 @@ class MiniModelETL:
     
     def add_column_if_not_exists(self, column_name, col_type="INTEGER"):
         """Add a column to the table if it does not exist."""
+        # Whitelist of allowed column types
+        allowed_types = ["INTEGER", "TEXT", "BOOLEAN", "DOUBLE PRECISION", "TIMESTAMP"]
+        if col_type not in allowed_types:
+            raise ValueError(f"Invalid column type: {col_type}. Allowed types: {allowed_types}")
+        
         stmt = text(f'''
             DO $$
             BEGIN
