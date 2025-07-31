@@ -15,15 +15,38 @@ class MySklearnModel(BaseEstimator):
     Replace with your own model and parameters.
     """
     def __init__(self, **kwargs):
-        # Set model parameters here
+       """
+       Initialize your model with parameters.
+       
+       Args:
+           **kwargs: Model-specific parameters
+       """
+       # TODO: Set model parameters here
+       # Example: self.param1 = kwargs.get('param1', default_value)
         pass
 
     def fit(self, X, y):
-        # Train your model here
+         """
+        Train your model on the provided data.
+        
+        Args:
+            X: Training features
+            y: Training targets
+        """
+        # TODO: Implement model training logic
         pass
 
     def predict(self, X):
-        # Predict using your model here
+        """
+        Make predictions on new data.
+        
+        Args:
+            X: Input features for prediction
+            
+        Returns:
+            Predictions
+        """
+        # TODO: Implement prediction logic
         pass
 
 def train_and_save_sklearn_model(X_train, y_train, save_path):

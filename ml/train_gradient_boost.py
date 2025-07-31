@@ -3,13 +3,11 @@ Train Gradient Boosting model using heart.csv data
 """
 
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn_model2 import GradientBoostModel, train_and_save_sklearn_model, load_sklearn_model, evaluate_model
+from sklearn_model2 import train_and_save_sklearn_model, evaluate_model
 
 def load_and_preprocess_data():
     """
@@ -32,7 +30,7 @@ def load_and_preprocess_data():
     print(df.isnull().sum())
     
     # Display target distribution
-    print(f"\nTarget distribution (HeartDisease):")
+    print("\nTarget distribution (HeartDisease):")
     print(df['HeartDisease'].value_counts())
     print(f"Percentage of heart disease cases: {df['HeartDisease'].mean():.2%}")
     

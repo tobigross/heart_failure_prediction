@@ -176,7 +176,7 @@ class MiniModelETL:
             result[column_name] = preds
         
         # Add columns if needed
-        for name in predictions.keys():
+        for name in predictions:
             self.add_column_if_not_exists(f"prediction_{name}", "INTEGER")
         
         # Insert data
@@ -206,7 +206,7 @@ class MiniModelETL:
             successful_models = [name for name, model in models.items() if model is not None]
             failed_models = [name for name, model in models.items() if model is None]
             
-            print(f"✅ Pipeline completed successfully!")
+            print("✅ Pipeline completed successfully!")
             print(f"📊 Processed models: {', '.join(successful_models)}")
             if failed_models:
                 print(f"⚠️ Failed models: {', '.join(failed_models)}")

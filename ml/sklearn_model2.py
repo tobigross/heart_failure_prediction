@@ -9,7 +9,6 @@ from sklearn.base import BaseEstimator
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.model_selection import GridSearchCV
 import joblib
-import numpy as np
 
 class GradientBoostModel(BaseEstimator):
     """
