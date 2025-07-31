@@ -49,14 +49,9 @@ def prepare_features(df):
     df_encoded = pd.get_dummies(df, columns=categorical_cols, drop_first=False)
     
     # Select features based on training_columns.txt
-    feature_columns = [
-        'Age', 'RestingBP', 'Cholesterol', 'FastingBS', 'MaxHR', 'Oldpeak',
-        'Sex_F', 'Sex_M',
-        'ChestPainType_ASY', 'ChestPainType_ATA', 'ChestPainType_NAP', 'ChestPainType_TA',
-        'RestingECG_LVH', 'RestingECG_Normal', 'RestingECG_ST',
-        'ExerciseAngina_N', 'ExerciseAngina_Y',
-        'ST_Slope_Down', 'ST_Slope_Flat', 'ST_Slope_Up'
-    ]
+    # Load feature columns from file for consistency
+    with open('ml/training_columns.txt', 'r') as f:
+        feature_columns = [line.strip() for line in f if line.strip()]
     
     # Check which columns are available
     available_columns = [col for col in feature_columns if col in df_encoded.columns]
