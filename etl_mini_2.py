@@ -13,10 +13,17 @@ logger = logging.getLogger(__name__)
 
 def load_pytorch_model(model_path, input_dim=20):
     """Load a PyTorch model from file."""
-    model = HeartModel(input_dim=input_dim)
-    model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
-    model.eval()
-    return model
+    if not os.path.exists(model_path):
+        return None
+
+    try:
+        model = HeartModel(input_dim=input_dim)
+        model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+        model.eval()
+        return model
+    except Exception as e:
+        logger.error(f"Error loading PyTorch model {model_path}: {e}")
+        return None
 
 def predict_pytorch(model, data):
     """Predict using a PyTorch model."""
