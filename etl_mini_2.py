@@ -76,8 +76,8 @@ class MiniModelETL:
     "password": getpass.getpass("Enter database password: ")
 }
         self.table_name = "heart_predictions_mini"
-        if not self.db_config["password"]:
-            raise ValueError("DB_PASSWORD environment variable must be set")
+        if not self.db_config["password"].strip():
+            raise ValueError("Database password cannot be empty")
         # SQLAlchemy connection string
         self.engine = create_engine(
             f"postgresql+psycopg2://{self.db_config['user']}:{self.db_config['password']}@{self.db_config['host']}:{self.db_config['port']}/{self.db_config['dbname']}"
