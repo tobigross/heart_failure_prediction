@@ -4,6 +4,7 @@ import logging
 import joblib
 import warnings
 import os
+import getpass
 from ml.model import HeartModel
 from sqlalchemy import create_engine, text
 
@@ -68,15 +69,15 @@ class MiniModelETL:
         self.COLUMNS_PATH = "ml/training_columns.txt"
         self.DATA_PATH = "data/heart.csv"
         self.db_config = {
-            "host": os.environ.get("DB_HOST", "localhost"),
-            "port": int(os.environ.get("DB_PORT", "5432")),
-            "dbname": os.environ.get("DB_NAME", "patients"),
-            "user": os.environ.get("DB_USER", "postgres"),
-            "password": os.environ.get("DB_PASSWORD")
-        }
+    "host": os.environ.get("DB_HOST", "localhost"),
+    "port": int(os.environ.get("DB_PORT", "5432")),
+    "dbname": os.environ.get("DB_NAME", "patients"),
+    "user": os.environ.get("DB_USER", "postgres"),
+    "password": getpass.getpass("Enter database password: ")
+}
         self.table_name = "heart_predictions_mini"
-        if not self.db_config["password"]:
-            raise ValueError("DB_PASSWORD environment variable must be set")
+        if not self.db_config["password"].strip():
+            raise ValueError("Database password cannot be empty")
         # SQLAlchemy connection string
         self.engine = create_engine(
             f"postgresql+psycopg2://{self.db_config['user']}:{self.db_config['password']}@{self.db_config['host']}:{self.db_config['port']}/{self.db_config['dbname']}"
