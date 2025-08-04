@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Failure Prediction</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .form-container {
+            padding: 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .predict-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+            min-width: 200px;
+        }
+
+        .predict-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .predict-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-container {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9ff, #e8f2ff);
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            display: none;
+        }
+
+        .result-container.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        .result-container h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .risk-indicator {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 10px 0;
+        }
+
+        .risk-low { background: #d4edda; color: #155724; }
+        .risk-medium { background: #fff3cd; color: #856404; }
+        .risk-high { background: #f8d7da; color: #721c24; }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>❤️ Heart Failure Prediction</h1>
+            <p>AI-powered risk assessment for cardiovascular health</p>
+        </div>
+        
+        <div class="form-container">
+            <form id="predictionForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="age">Age (years)</label>
+                        <input type="number" id="age" name="age" min="1" max="120" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sex">Sex</label>
+                        <select id="sex" name="sex" required>
+                            <option value="">Select...</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="chest_pain_type">Chest Pain Type</label>
+                        <select id="chest_pain_type" name="chest_pain_type" required>
+                            <option value="">Select...</option>
+                            <option value="TA">Typical Angina</option>
+                            <option value="ATA">Atypical Angina</option>
+                            <option value="NAP">Non-Anginal Pain</option>
+                            <option value="ASY">Asymptomatic</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resting_bp">Resting Blood Pressure (mm Hg)</label>
+                        <input type="number" id="resting_bp" name="resting_bp" min="50" max="300" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cholesterol">Cholesterol (mm/dl)</label>
+                        <input type="number" id="cholesterol" name="cholesterol" min="100" max="600" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fasting_bs">Fasting Blood Sugar > 120 mg/dl</label>
+                        <select id="fasting_bs" name="fasting_bs" required>
+                            <option value="">Select...</option>
+                            <option value="0">No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="resting_ecg">Resting ECG</label>
+                        <select id="resting_ecg" name="resting_ecg" required>
+                            <option value="">Select...</option>
+                            <option value="Normal">Normal</option>
+                            <option value="ST">ST-T Wave Abnormality</option>
+                            <option value="LVH">Left Ventricular Hypertrophy</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="max_hr">Maximum Heart Rate</label>
+                        <input type="number" id="max_hr" name="max_hr" min="60" max="220" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exercise_angina">Exercise Induced Angina</label>
+                        <select id="exercise_angina" name="exercise_angina" required>
+                            <option value="">Select...</option>
+                            <option value="N">No</option>
+                            <option value="Y">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="oldpeak">Oldpeak (ST Depression)</label>
+                        <input type="number" id="oldpeak" name="oldpeak" step="0.1" min="-3" max="7" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="st_slope">ST Slope</label>
+                        <select id="st_slope" name="st_slope" required>
+                            <option value="">Select...</option>
+                            <option value="Up">Upsloping</option>
+                            <option value="Flat">Flat</option>
+                            <option value="Down">Downsloping</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="predict-btn" id="predictBtn">
+                    🔮 Predict Heart Failure Risk
+                </button>
+            </form>
+
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Analyzing your data...</p>
+            </div>
+
+            <div id="resultContainer" class="result-container">
+                <h3>📊 Prediction Results</h3>
+                <div id="resultContent"></div>
+            </div>
+
+            <div id="errorMessage" class="error-message">
+                <strong>Error:</strong> <span id="errorText"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update this URL to match your backend API
+        const API_URL = 'http://localhost:8000/predict';
+
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Convert numeric fields
+            const numericFields = ['age', 'resting_bp', 'cholesterol', 'fasting_bs', 'max_hr', 'oldpeak'];
+            numericFields.forEach(field => {
+                if (data[field]) {
+                    data[field] = parseFloat(data[field]);
+                }
+            });
+
+            // Show loading, hide results/errors
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultContainer').classList.remove('show');
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('predictBtn').disabled = true;
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                displayResult(result);
+                
+            } catch (error) {
+                console.error('Prediction error:', error);
+                showError('Failed to get prediction. Please check if your backend is running and try again.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('predictBtn').disabled = false;
+            }
+        });
+
+        function displayResult(result) {
+            const resultContainer = document.getElementById('resultContainer');
+            const resultContent = document.getElementById('resultContent');
+            
+            // Determine risk level and color
+            let riskLevel = 'medium';
+            let riskText = 'Moderate Risk';
+            
+            if (result.probability) {
+                const prob = result.probability * 100;
+                if (prob < 30) {
+                    riskLevel = 'low';
+                    riskText = 'Low Risk';
+                } else if (prob > 70) {
+                    riskLevel = 'high';
+                    riskText = 'High Risk';
+                }
+            }
+
+            resultContent.innerHTML = `
+                <div class="risk-indicator risk-${riskLevel}">
+                    ${riskText}
+                </div>
+                <p><strong>Probability:</strong> ${result.probability ? (result.probability * 100).toFixed(1) + '%' : 'N/A'}</p>
+                ${result.confidence ? `<p><strong>Confidence:</strong> ${result.confidence}</p>` : ''}
+                ${result.risk_category ? `<p><strong>Category:</strong> ${result.risk_category}</p>` : ''}
+                <br>
+                <p style="font-size: 0.9em; color: #666; font-style: italic;">
+                    ⚠️ This is a prediction tool for educational purposes only. 
+                    Please consult with a healthcare professional for proper medical advice.
+                </p>
+            `;
+            
+            resultContainer.classList.add('show');
+        }
+
+        function showError(message) {
+            document.getElementById('errorText').textContent = message;
+            document.getElementById('errorMessage').classList.add('show');
+        }
+    </script>
+</body>
+</html>
