@@ -129,19 +129,32 @@
             margin-bottom: 15px;
             font-size: 1.3em;
         }
-
-        .risk-indicator {
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1.1em;
-            margin: 10px 0;
+        
+        .prediction-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
         }
-
-        .risk-low { background: #d4edda; color: #155724; }
-        .risk-medium { background: #fff3cd; color: #856404; }
-        .risk-high { background: #f8d7da; color: #721c24; }
+        .prediction-item:last-child {
+            border-bottom: none;
+        }
+        .prediction-item strong {
+            color: #555;
+        }
+        .prediction-value {
+            font-weight: bold;
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+        .prediction-value.risk-1 {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .prediction-value.risk-0 {
+            background: #d4edda;
+            color: #155724;
+        }
 
         .error-message {
             background: #f8d7da;
@@ -186,18 +199,9 @@
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .form-container {
-                padding: 20px;
-            }
-            
-            .header {
-                padding: 20px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
+            .form-container { padding: 20px; }
+            .header { padding: 20px; }
+            .header h1 { font-size: 2em; }
         }
     </style>
 </head>
@@ -211,87 +215,63 @@
         <div class="form-container">
             <form id="predictionForm">
                 <div class="form-grid">
-                    <div class="form-group">
+                     <div class="form-group">
                         <label for="age">Age (years)</label>
-                        <input type="number" id="age" name="age" min="1" max="120" required>
+                        <input type="number" id="age" name="Age" min="1" max="120" required>
                     </div>
-
                     <div class="form-group">
                         <label for="sex">Sex</label>
-                        <select id="sex" name="sex" required>
+                        <select id="sex" name="Sex" required>
                             <option value="">Select...</option>
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
-                        </select>
+                            <option value="1">Male</option> <option value="0">Female</option> </select>
                     </div>
-
                     <div class="form-group">
                         <label for="chest_pain_type">Chest Pain Type</label>
-                        <select id="chest_pain_type" name="chest_pain_type" required>
+                        <select id="chest_pain_type" name="ChestPainType" required>
                             <option value="">Select...</option>
-                            <option value="TA">Typical Angina</option>
-                            <option value="ATA">Atypical Angina</option>
-                            <option value="NAP">Non-Anginal Pain</option>
-                            <option value="ASY">Asymptomatic</option>
-                        </select>
+                            <option value="3">Typical Angina (TA)</option> <option value="1">Atypical Angina (ATA)</option> <option value="2">Non-Anginal Pain (NAP)</option> <option value="0">Asymptomatic (ASY)</option> </select>
                     </div>
-
                     <div class="form-group">
                         <label for="resting_bp">Resting Blood Pressure (mm Hg)</label>
-                        <input type="number" id="resting_bp" name="resting_bp" min="50" max="300" required>
+                        <input type="number" id="resting_bp" name="RestingBP" min="50" max="300" required>
                     </div>
-
                     <div class="form-group">
                         <label for="cholesterol">Cholesterol (mm/dl)</label>
-                        <input type="number" id="cholesterol" name="cholesterol" min="100" max="600" required>
+                        <input type="number" id="cholesterol" name="Cholesterol" min="0" max="600" required>
                     </div>
-
                     <div class="form-group">
                         <label for="fasting_bs">Fasting Blood Sugar > 120 mg/dl</label>
-                        <select id="fasting_bs" name="fasting_bs" required>
+                        <select id="fasting_bs" name="FastingBS" required>
                             <option value="">Select...</option>
                             <option value="0">No</option>
                             <option value="1">Yes</option>
                         </select>
                     </div>
-
                     <div class="form-group">
                         <label for="resting_ecg">Resting ECG</label>
-                        <select id="resting_ecg" name="resting_ecg" required>
+                        <select id="resting_ecg" name="RestingECG" required>
                             <option value="">Select...</option>
-                            <option value="Normal">Normal</option>
-                            <option value="ST">ST-T Wave Abnormality</option>
-                            <option value="LVH">Left Ventricular Hypertrophy</option>
-                        </select>
+                            <option value="1">Normal</option> <option value="2">ST-T Wave Abnormality (ST)</option> <option value="0">Left Ventricular Hypertrophy (LVH)</option> </select>
                     </div>
-
                     <div class="form-group">
                         <label for="max_hr">Maximum Heart Rate</label>
-                        <input type="number" id="max_hr" name="max_hr" min="60" max="220" required>
+                        <input type="number" id="max_hr" name="MaxHR" min="60" max="220" required>
                     </div>
-
                     <div class="form-group">
                         <label for="exercise_angina">Exercise Induced Angina</label>
-                        <select id="exercise_angina" name="exercise_angina" required>
+                        <select id="exercise_angina" name="ExerciseAngina" required>
                             <option value="">Select...</option>
-                            <option value="N">No</option>
-                            <option value="Y">Yes</option>
-                        </select>
+                            <option value="0">No</option> <option value="1">Yes</option> </select>
                     </div>
-
                     <div class="form-group">
                         <label for="oldpeak">Oldpeak (ST Depression)</label>
-                        <input type="number" id="oldpeak" name="oldpeak" step="0.1" min="-3" max="7" required>
+                        <input type="number" id="oldpeak" name="Oldpeak" step="0.1" min="-3" max="7" required>
                     </div>
-
                     <div class="form-group">
                         <label for="st_slope">ST Slope</label>
-                        <select id="st_slope" name="st_slope" required>
+                        <select id="st_slope" name="ST_Slope" required>
                             <option value="">Select...</option>
-                            <option value="Up">Upsloping</option>
-                            <option value="Flat">Flat</option>
-                            <option value="Down">Downsloping</option>
-                        </select>
+                            <option value="2">Upsloping (Up)</option> <option value="1">Flat</option> <option value="0">Downsloping (Down)</option> </select>
                     </div>
                 </div>
 
@@ -318,22 +298,23 @@
 
     <script>
         // Update this URL to match your backend API
-        const API_URL = 'http://localhost:8000/predict';
+        const API_URL = 'http://127.0.0.1:8000/predict';
 
         document.getElementById('predictionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
-            
-            // Convert numeric fields
-            const numericFields = ['age', 'resting_bp', 'cholesterol', 'fasting_bs', 'max_hr', 'oldpeak'];
-            numericFields.forEach(field => {
-                if (data[field]) {
-                    data[field] = parseFloat(data[field]);
+            const data = {};
+            // Manually build the data object to ensure correct types
+            for (const [key, value] of formData.entries()) {
+                // Check if the field should be a number
+                if (['Age', 'RestingBP', 'Cholesterol', 'FastingBS', 'MaxHR', 'Oldpeak', 'Sex', 'ChestPainType', 'RestingECG', 'ExerciseAngina', 'ST_Slope'].includes(key)) {
+                    data[key] = parseFloat(value);
+                } else {
+                    data[key] = value;
                 }
-            });
-
+            }
+            
             // Show loading, hide results/errors
             document.getElementById('loading').style.display = 'block';
             document.getElementById('resultContainer').classList.remove('show');
@@ -350,6 +331,8 @@
                 });
 
                 if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    console.error('API Error Response:', errorData);
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
@@ -358,7 +341,7 @@
                 
             } catch (error) {
                 console.error('Prediction error:', error);
-                showError('Failed to get prediction. Please check if your backend is running and try again.');
+                showError('Failed to get prediction. Please check if the backend is running and the API URL is correct.');
             } finally {
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('predictBtn').disabled = false;
@@ -369,28 +352,31 @@
             const resultContainer = document.getElementById('resultContainer');
             const resultContent = document.getElementById('resultContent');
             
-            // Determine risk level and color
-            let riskLevel = 'medium';
-            let riskText = 'Moderate Risk';
-            
-            if (result.probability) {
-                const prob = result.probability * 100;
-                if (prob < 30) {
-                    riskLevel = 'low';
-                    riskText = 'Low Risk';
-                } else if (prob > 70) {
-                    riskLevel = 'high';
-                    riskText = 'High Risk';
-                }
-            }
+            // Function to get the display text and class for a prediction
+            const formatPrediction = (prediction) => {
+                const value = parseInt(prediction); // Ensure it's an integer
+                const riskClass = `risk-${value}`;
+                const riskText = value === 1 ? 'Heart Disease' : 'Normal';
+                return `<span class="prediction-value ${riskClass}">${riskText}</span>`;
+            };
 
             resultContent.innerHTML = `
-                <div class="risk-indicator risk-${riskLevel}">
-                    ${riskText}
+                <div class="prediction-item">
+                    <strong>PyTorch Model Prediction:</strong>
+                    ${formatPrediction(result.prediction_pytorch)}
                 </div>
-                <p><strong>Probability:</strong> ${result.probability ? (result.probability * 100).toFixed(1) + '%' : 'N/A'}</p>
-                ${result.confidence ? `<p><strong>Confidence:</strong> ${result.confidence}</p>` : ''}
-                ${result.risk_category ? `<p><strong>Category:</strong> ${result.risk_category}</p>` : ''}
+                <div class="prediction-item">
+                    <strong>Scikit-learn Model 1 Prediction:</strong>
+                    ${formatPrediction(result.prediction_sklearn1)}
+                </div>
+                <div class="prediction-item">
+                    <strong>Scikit-learn Model 2 Prediction:</strong>
+                     ${formatPrediction(result.prediction_sklearn2)}
+                </div>
+                 <div class="prediction-item">
+                    <strong>Scikit-learn Model 3 Prediction:</strong>
+                    ${formatPrediction(result.prediction_sklearn3)}
+                </div>
                 <br>
                 <p style="font-size: 0.9em; color: #666; font-style: italic;">
                     ⚠️ This is a prediction tool for educational purposes only. 
@@ -408,3 +394,4 @@
     </script>
 </body>
 </html>
+

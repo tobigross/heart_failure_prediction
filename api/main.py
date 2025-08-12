@@ -9,7 +9,6 @@ import os
 import getpass
 import joblib
 import psycopg2
-from datetime import datetime
 sys.path.append(os.path.abspath(".."))
 from ml.model import HeartModel
 # -------- API Setup --------
@@ -39,9 +38,9 @@ pytorch_model.load_state_dict(torch.load("ml/model_pytorch.pt", map_location=tor
 pytorch_model.eval()
 
 # Sklearn models
-sklearn_model1 = joblib.load("ml/sklearn_model1.pkl")  # Update path
-sklearn_model2 = joblib.load("ml/sklearn_model2.pkl")
-sklearn_model3 = joblib.load("ml/sklearn_model3.pkl")
+sklearn_model1 = joblib.load("ml/model_sklearn.pkl") 
+sklearn_model2 = joblib.load("ml/gradient_boost_default.pkl")
+sklearn_model3 = joblib.load("ml/gradient_boost_tuned.pkl")
 #Laden der Features im encoding
 with open("ml/training_columns.txt") as f:
     TRAINING_COLUMNS = [line.strip() for line in f]
@@ -83,20 +82,19 @@ def predict(data: PatientData):
         
         # Insert into your existing table (adjust column names to match your table)
         cur.execute("""
-    INSERT INTO your_table_name (
-        age, sex, chest_pain_type, resting_bp, cholesterol, 
-        fasting_bs, resting_ecg, max_hr, exercise_angina, 
-        oldpeak, st_slope, pytorch_prediction, 
-        sklearn_model1_prediction, sklearn_model2_prediction,
-        sklearn_model3_prediction,
-        created_at
-    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-""", (
+    INSERT INTO heart_predictions_mini (
+                "Age", "Sex", "ChestPainType", "RestingBP", "Cholesterol", 
+                "FastingBS", "RestingECG", "MaxHR", "ExerciseAngina", 
+                "Oldpeak", "ST_Slope", "prediction_pytorch", 
+                "prediction_sklearn", "prediction_gradient_boost_default",
+                "prediction_gradient_boost_tuned"
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, (
     data.Age, data.Sex, data.ChestPainType, data.RestingBP, 
     data.Cholesterol, data.FastingBS, data.RestingECG, 
     data.MaxHR, data.ExerciseAngina, data.Oldpeak, 
     data.ST_Slope, pytorch_pred, int(sklearn1_pred), 
-    int(sklearn2_pred), int(sklearn3_pred), datetime.now()
+    int(sklearn2_pred), int(sklearn3_pred)
 ))
         
         conn.commit()
@@ -105,8 +103,8 @@ def predict(data: PatientData):
         print(f"Database error: {e}")
     
     return {
-        "prediction_pytorch": pytorch_pred,
-        "prediction_sklearn1":sklearn1_pred,
-        "prediction_sklearn2":sklearn2_pred,
-        "prediction_sklearn3": sklearn3_pred
+        "prediction_pytorch": int(pytorch_pred),
+        "prediction_sklearn1":int(sklearn1_pred),
+        "prediction_sklearn2":int(sklearn2_pred),
+        "prediction_sklearn3": int(sklearn3_pred)
     }
