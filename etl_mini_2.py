@@ -73,7 +73,7 @@ class MiniModelETL:
     "port": int(os.environ.get("DB_PORT", "5432")),
     "dbname": os.environ.get("DB_NAME", "patients"),
     "user": os.environ.get("DB_USER", "postgres"),
-    "password": getpass.getpass("Enter database password: ")
+    "password": os.environ.get("DB_PASSWORD", "")
 }
         self.table_name = "heart_predictions_mini"
         if not self.db_config["password"].strip():
