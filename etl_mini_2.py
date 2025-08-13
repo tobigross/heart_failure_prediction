@@ -214,6 +214,7 @@ class MiniModelETL:
         
         # Insert data
         with self.engine.begin() as conn:
+            conn.execute(text(f"TRUNCATE TABLE {self.table_name};"))
             result.to_sql(self.table_name, conn, if_exists='append', index=False, method='multi')
         
         print(f"✅ Inserted {len(result)} rows")
