@@ -23,6 +23,26 @@
 - [ ] Feature Importance mit SHAP anzeigen
 
 
+Essential completions (do these first):
+
+Write a comprehensive README - This is crucial. Include:
+
+Project overview and objectives
+Dataset description and source
+Model performance comparison (accuracy, precision, recall)
+Installation and usage instructions
+Technology stack explanation
+
+
+Include the PowerBI report - Either as screenshots in the README or as exported files, since this shows your data visualization skills
+
+Suggested enhancements to make it even stronger:
+
+Model evaluation section - Add detailed performance metrics comparison between your three models
+Data preprocessing documentation - Show how you handled missing data, feature engineering, etc.
+API documentation - Include example requests/responses, maybe with a simple frontend demo
+Cross-validation results - Demonstrate proper ML methodology
+Feature importance analysis - Show which factors most influence heart disease prediction
 
 Recruiter / Hiring Manager Critique
 
