@@ -15,3 +15,5 @@ env/
 *.db
 *.sqlite
 data/
+#Workspace
+heart_failure_prediction.code-workspace
