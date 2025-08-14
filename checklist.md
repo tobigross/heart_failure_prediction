@@ -16,7 +16,8 @@
 - [ ] Dockerfile für API
 - [ ] API-Zugriff absichern (Token, Auth)
 
-
+Get:
+-ROC for Random forest and NN
 
 
 Essential completions (do these first):
