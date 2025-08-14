@@ -16,11 +16,7 @@
 - [ ] Dockerfile für API
 - [ ] API-Zugriff absichern (Token, Auth)
 
-## 5. Weiterentwicklung
 
-- [x] Trainiere alternative Modelle (LogReg, XGBoost, etc.)
-- [ ] Hyperparameter-Tuning mit GridSearch oder Optuna
-- [ ] Feature Importance mit SHAP anzeigen
 
 
 Essential completions (do these first):
