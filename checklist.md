@@ -1,8 +1,6 @@
-# ✅ ML-Projekt Checkliste (für Industrie, Lebenslauf)
-
 ## 2. Dokumentation (README.md)
 
-- [ ] Datenquelle & Beschreibung der Spalten
+- [X] Datenquelle & Beschreibung der Spalten
 - [ ] Feature Engineering (One-Hot-Encoding, Umbenennungen)
 - [ ] Modell: z. B. RandomForestClassifier + Parametereinstellungen
 - [ ] API:
@@ -11,10 +9,40 @@
 - [ ] Power BI Report:
   - [ ] Beschreibung & Screenshots
 
+## 3.Frontend tuning
+    - understanding
+    -tuning
+
 ## 4. Deployment
 
 - [ ] Dockerfile für API
 - [ ] API-Zugriff absichern (Token, Auth)
+
+
+🚨 Still Missing (Critical for CV):
+
+Live Demo Links - Deploy your app and add working links
+GitHub Repository Link - Update the clone URL with your actual repo
+Docker Configuration - Add docker-compose.yml and Dockerfile
+Requirements.txt - List all Python dependencies
+API Documentation - Add Swagger/OpenAPI docs link
+Unit Tests - Add test coverage information
+Code Quality Badges - Add test coverage, code quality badges
+Performance Metrics - Add response time, throughput metrics
+Your Contact Information - Replace placeholder with real links
+Screenshots - Add actual screenshots of your web interface
+Video Walkthrough - Record a short demo video
+
+🎯 For Maximum CV Impact, Add:
+
+Deployment section showing it's production-ready
+Monitoring/logging implementation details
+Security considerations (input validation, etc.)
+Scalability notes (how it handles multiple users)
+CI/CD pipeline if you have one
+
+This README now looks much more professional and demonstrates real engineering skills that recruiters look for!
+
 
 Get:
 -ROC for Random forest and NN
@@ -47,26 +75,11 @@ Recruiter / Hiring Manager Critique
 
         As a recruiter, I can’t tell which four ML models you used, why you chose them, and how they performed.
 
-        Include performance metrics (accuracy, F1, ROC-AUC) for each model so I can see your ability to evaluate trade-offs.
-
     Business framing is thin
 
         Right now, it reads like a tech experiment. Employers like projects that frame a real-world problem, even if it’s hypothetical.
 
         Example: “This tool could be used by cardiologists to quickly assess risk factors during routine check-ups.”
-
-    Code quality is unknown
-
-        On a resume, I’d want to see a GitHub link with a clean repo structure:
-
-        /etl
-        /models
-        /api
-        /frontend
-        /reports
-        README.md
-        requirements.txt
-        docker-compose.yml (optional but great)
 
         README should have a “How to Run” section and a diagram of the pipeline.
 
@@ -82,15 +95,7 @@ Recruiter / Hiring Manager Critique
 
 Improvement Ideas Before Adding to Resume
 
-    Add hyperparameter tuning & feature importance (as you plan) — but also document the impact.
-
-    Show a comparison table of the four models, including metrics and training times.
-
-    Include an architecture diagram of the pipeline — recruiters and hiring managers love visuals.
-
     Containerize the project with Docker so anyone can run it without setup headaches.
-
-    Deploy a demo (e.g., on Render, Heroku, or Hugging Face Spaces) so people can test it live.
 
     Make a polished README with:
 

@@ -1,0 +1,17 @@
+# Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Virtual environment files
+venv/
+.venv/
+.conda/
+env/
+
+# Your local environment variables
+.env
+
+# Database and data files
+*.db
+*.sqlite
+data/
