@@ -160,7 +160,8 @@ The system follows a modular architecture with clear separation between data pro
 ### Installation
 
 Follow these steps to set up and run the project:
-
+<details>
+<summary>Installation steps</summary>
 1.  **Clone the Repository:**
     ```bash
     git clone https://github.com/tobigross/heart_failure_prediction.git
@@ -173,9 +174,8 @@ Follow these steps to set up and run the project:
 
     * **Create a new conda environment:**
         ```bash
-        conda create --name heart_failure_prediction python=3.9
+        conda create --name heart_failure_prediction python=3.10
         ```
-        *(Note: You can adjust the Python version as needed.)*
 
     * **Activate the environment:**
         ```bash
@@ -213,12 +213,12 @@ Follow these steps to set up and run the project:
     ---
 
 5.  **Run the ETL Process:**
-    Once everything is set up, you can run the main ETL script.
 
     * **Execute the ETL script:**
         ```bash
         python etl_mini_2.py
         ```
+</details>
 
 ### Using Docker
 
