@@ -128,6 +128,7 @@ The system follows a modular architecture with clear separation between data pro
 - **918 records** with 11 clinical features
 - **Target variable:** Heart disease presence (binary classification)
 - **Features include:** Age, chest pain type, blood pressure, cholesterol, ECG results, exercise capacity
+- **No preprocessing:** No missing values or similar. Everything is ready to go.
 
 <details>
 <summary>Detailed Feature Descriptions</summary>
@@ -259,9 +260,9 @@ print(f"Heart Disease Risk: {prediction['risk_level']}")
 ```
 
 ### Web Interface
-1. Navigate to `http://localhost:8000/dashboard`
+1. Open frontend/index.html
 2. Input patient data through the form
-3. View prediction results and risk assessment
+3. View prediction results
 
 ---
 
