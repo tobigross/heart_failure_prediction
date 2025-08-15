@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python) ![FastAPI](https://img.shields.io/badge/FastAPI-0.95-green?logo=fastapi) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13-blue?logo=postgresql) ![PowerBI](https://img.shields.io/badge/PowerBI-Desktop-yellow?logo=microsoft-power-bi)
 
-An end-to-end machine learning application that predicts heart disease likelihood based on patient health data, achieving **89% accuracy** with a PyTorch neural network. This project demonstrates the complete ML pipeline from data ingestion to model deployment.
+An end-to-end machine learning application that predicts heart based on patient health data. This project demonstrates the complete ML pipeline from data ingestion to model deployment.
 
 ---
 
@@ -38,13 +38,14 @@ An end-to-end machine learning application that predicts heart disease likelihoo
 
 | Model | Accuracy | Precision | Recall | F1-Score | ROC-AUC |
 |-------|----------|-----------|--------|----------|---------|
-| **PyTorch Neural Network** | **0.89** | **0.89** | **0.89** | **0.89** | **0.89** |
-| Random Forest | 0.88 | 0.88 | 0.88 | 0.88 | 0.94 |
-| Gradient Boosting (Tuned) | 0.886 | 0.886 | 0.886 | 0.886 | 0.941 |
-| Gradient Boosting (Untuned) | 0.880 | 0.882 | 0.880 | 0.878 | 0.938 |
+| PyTorch Neural Network | 0.89 | 0.89 | 0.89 | 0.89 | 0.87 |
+| sklearn Random Forest | 0.88 | 0.88 | 0.88 | 0.88 | 0.937 |
+| sklearn Gradient Boosting (Tuned) | 0.886 | 0.886 | 0.886 | 0.886 | 0.941 |
+| sklearn Gradient Boosting (Untuned) | 0.880 | 0.882 | 0.880 | 0.878 | 0.938 |
 
 <details>
 <summary>Detailed Classification Reports</summary>
+
 
 ### PyTorch Neural Network
 
@@ -52,9 +53,11 @@ An end-to-end machine learning application that predicts heart disease likelihoo
 |--------------|-----------|--------|----------|---------|
 | 0 (No Disease) | 0.89    | 0.83   | 0.86     | 112     |
 | 1 (Disease)    | 0.89    | 0.93   | 0.91     | 164     |
-| **Accuracy**   |         |        | **0.89** | 276     |
+| **Accuracy**   |         |        | 0.89 | 276     |
 | **Macro Avg**  | 0.89    | 0.88   | 0.89     | 276     |
 | **Weighted Avg** | 0.89  | 0.89   | 0.89     | 276     |
+
+**ROC-AUC:** 0.874
 
 ### Random Forest
 
@@ -62,9 +65,11 @@ An end-to-end machine learning application that predicts heart disease likelihoo
 |--------------|-----------|--------|----------|---------|
 | 0 (No Disease) | 0.82    | 0.88   | 0.85     | 112     |
 | 1 (Disease)    | 0.92    | 0.87   | 0.89     | 164     |
-| **Accuracy**   |         |        | **0.88** | 276     |
+| **Accuracy**   |         |        | 0.88 | 276     |
 | **Macro Avg**  | 0.87    | 0.88   | 0.87     | 276     |
 | **Weighted Avg** | 0.88  | 0.88   | 0.88     | 276     |
+
+**ROC-AUC:** 0.937
 
 ### Gradient Boosting (Untuned)
 
@@ -72,7 +77,7 @@ An end-to-end machine learning application that predicts heart disease likelihoo
 |--------------|-----------|--------|----------|---------|
 | 0 (No Disease) | 0.840   | 0.883  | 0.861    | 77      |
 | 1 (Disease)    | 0.913   | 0.879  | 0.895    | 107     |
-| **Accuracy**   |         |        | **0.880** | 184     |
+| **Accuracy**   |         |        | 0.880 | 184     |
 | **Macro Avg**  | 0.876   | 0.881  | 0.878    | 184     |
 | **Weighted Avg** | 0.882 | 0.880  | 0.881    | 184     |
 
@@ -92,7 +97,7 @@ An end-to-end machine learning application that predicts heart disease likelihoo
 |--------------|-----------|--------|----------|---------|
 | 0 (No Disease) | 0.859   | 0.870  | 0.865    | 77      |
 | 1 (Disease)    | 0.906   | 0.897  | 0.901    | 107     |
-| **Accuracy**   |         |        | **0.886** | 184     |
+| **Accuracy**   |         |        | 0.886 | 184     |
 | **Macro Avg**  | 0.882   | 0.884  | 0.883    | 184     |
 | **Weighted Avg** | 0.886 | 0.886  | 0.886    | 184     |
 
@@ -146,6 +151,8 @@ The system follows a modular architecture with clear separation between data pro
 | ExerciseAngina | Exercise-induced angina | Y (Yes), N (No) |
 | Oldpeak | ST depression | Numeric (-2.6 to 6.2) |
 | ST_Slope | Peak exercise ST segment slope | Up, Flat, Down |
+
+One-hot encoding is used for all models.
 
 </details>
 
@@ -289,10 +296,12 @@ heart-disease-prediction/
 
 ## Key Insights
 
-- **Age and cholesterol** are the strongest predictors of heart disease
-- **Exercise-induced angina** shows high correlation with positive cases
-- **ST slope patterns** provide crucial diagnostic information
-- Model achieves **89% accuracy** on unseen data
+- Age and cholesterol are the strongest predictors of heart disease
+- Exercise-induced angina shows high correlation with positive cases
+- ST slope patterns provide crucial diagnostic information
+- NN Model achieves 89% accuracy
+- NN has worst ROC-AUC
+- The tuned Gradient boost model seems to be slightly better the the rest
 
 ---
 ## Analytics Dashboard

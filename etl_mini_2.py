@@ -4,11 +4,10 @@ import logging
 import joblib
 import warnings
 import os
-import getpass
 from ml.model import HeartModel
 from sqlalchemy import create_engine, text
 
-# Set logging to WARNING to reduce output (or ERROR for even less)
+
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
@@ -63,22 +62,21 @@ def predict_sklearn(model, data):
         return [None] * len(data)
 
 class MiniModelETL:
-    """Minimal ETL pipeline for comparing multiple model predictions."""
+    """ETL pipeline for comparing multiple model predictions."""
     
     def __init__(self):
         self.COLUMNS_PATH = "ml/training_columns.txt"
         self.DATA_PATH = "data/heart.csv"
         self.db_config = {
-    "host": os.environ.get("DB_HOST", "localhost"),
-    "port": int(os.environ.get("DB_PORT", "5432")),
-    "dbname": os.environ.get("DB_NAME", "patients"),
-    "user": os.environ.get("DB_USER", "postgres"),
+    "host": os.environ.get("DB_HOST", ""),
+    "port": int(os.environ.get("DB_PORT", "")),
+    "dbname": os.environ.get("DB_NAME", ""),
+    "user": os.environ.get("DB_USER", ""),
     "password": os.environ.get("DB_PASSWORD", "")
 }
         self.table_name = "heart_predictions_mini"
         if not self.db_config["password"].strip():
             raise ValueError("Database password cannot be empty")
-        # SQLAlchemy connection string
         self.engine = create_engine(
             f"postgresql+psycopg2://{self.db_config['user']}:{self.db_config['password']}@{self.db_config['host']}:{self.db_config['port']}/{self.db_config['dbname']}"
         )
@@ -114,9 +112,9 @@ class MiniModelETL:
                 model = cfg["load"]()
                 models[name] = model
                 if model is not None:
-                    print(f"✅ {name}")
+                    print(f" {name}")
                 else:
-                    print(f"❌ {name} (failed to load)")
+                    print(f" {name} (failed to load)")
             except Exception as e:
                 logger.error(f"Error loading {name}: {e}")
                 models[name] = None
@@ -217,7 +215,7 @@ class MiniModelETL:
             conn.execute(text(f"TRUNCATE TABLE {self.table_name};"))
             result.to_sql(self.table_name, conn, if_exists='append', index=False, method='multi')
         
-        print(f"✅ Inserted {len(result)} rows")
+        print(f" Inserted {len(result)} rows")
     
     def run(self):
         """Run the ETL pipeline."""
@@ -240,13 +238,13 @@ class MiniModelETL:
             successful_models = [name for name, model in models.items() if model is not None]
             failed_models = [name for name, model in models.items() if model is None]
             
-            print("✅ Pipeline completed successfully!")
-            print(f"📊 Processed models: {', '.join(successful_models)}")
+            print(" Pipeline completed successfully!")
+            print(f" Processed models: {', '.join(successful_models)}")
             if failed_models:
-                print(f"⚠️ Failed models: {', '.join(failed_models)}")
+                print(f" Failed models: {', '.join(failed_models)}")
             
         except Exception as e:
-            print(f"❌ Pipeline failed: {e}")
+            print(f" Pipeline failed: {e}")
             raise
 
 def main():
