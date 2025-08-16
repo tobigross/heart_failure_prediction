@@ -8,11 +8,11 @@ An end-to-end machine learning application that predicts heart based on patient 
 
 ## Key Features
 
-- **Complete ETL Pipeline:** Automated data ingestion, cleaning, and preprocessing
-- **Multi-Model Comparison:** Four ML models trained and evaluated (PyTorch NN, Random Forest, Gradient Boosting)
-- **Production-Ready API:** FastAPI backend with comprehensive error handling
+- **ETL Pipeline:** Automated data loading, processing and saving
+- **Multi-Model Comparison:** Four ML models trained and evaluated (PyTorch NN, Random Forest, 2 Gradient Boosting)
+- **API:** FastAPI backend
 - **Database Integration:** PostgreSQL for prediction storage and retrieval
-- **Interactive Dashboard:** Power BI visualization for model insights
+- **Dashboard:** Power BI visualization for model insights
 - **Web Interface:** User-friendly HTML frontend for predictions
 
 ---
