@@ -228,16 +228,6 @@ Follow these steps to set up and run the project:
         ```
 </details>
 
-### Using Docker
-
-```bash
-# Build and run with Docker Compose
-docker-compose up --build
-
-# Access the application at http://localhost:8000
-```
-
----
 
 ## Usage
 
@@ -283,23 +273,39 @@ for model, prediction in result.items():
 
 ## Project Structure
 
-```
-heart-disease-prediction/
-├── data/                   # Dataset and processed data
-├── models/                 # Trained model files
-├── src/
-│   ├── data_processing/    # ETL pipeline
-│   ├── models/            # ML model implementations
-│   ├── api/               # FastAPI application
-│   └── utils/             # Helper functions
-├── frontend/              # HTML/CSS/JS files
-├── notebooks/             # Jupyter notebooks for analysis
-├── tests/                 # Unit and integration tests
-├── docker-compose.yml     # Docker configuration
-├── requirements.txt       # Python dependencies
-└── README.md
-```
 
+```
+heart_failure_prediction
+├─ api
+│  └─ main.py
+├─ frontend
+│  └─ index.html
+├─ images
+│  ├─ diagramm.png
+│  ├─ report.png
+│  └─ tuned_feature_importance.jpeg
+├─ ml
+│  ├─ get_ROC.py
+│  ├─ gradient_boost_default.pkl
+│  ├─ gradient_boost_tuned.pkl
+│  ├─ model.py
+│  ├─ model_gradientboost.py
+│  ├─ model_pytorch.pt
+│  ├─ model_sklearn.pkl
+│  └─ training_columns.txt
+├─ notebooks
+│  ├─ DataExploration.ipynb
+│  ├─ test_model.ipynb
+│  └─ UpdateSQL.ipynb
+├─ tests
+│   └─ test_api.py
+├─ LICENSE
+├─ README.md
+├─ requirements.txt
+├─ etl_mini_2.py
+
+
+```
 ---
 
 ## Key Insights
@@ -331,7 +337,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Author
 
 **Tobias Groß**  
-
+tobigross3334@gmail.com
 
 ---
 
