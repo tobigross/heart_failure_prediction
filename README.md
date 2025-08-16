@@ -29,7 +29,6 @@ An end-to-end machine learning application that predicts heart based on patient 
 - Power BI for analytics dashboard
 
 **Tools & Deployment:**
-- Docker for containerization
 - Git for version control
 
 ---
@@ -121,8 +120,6 @@ An end-to-end machine learning application that predicts heart based on patient 
 
 ![Project Architecture](./images/diagramm.png)
 
-The system follows a modular architecture with clear separation between data processing, model training, API services, and user interfaces.
-
 ---
 
 ## Dataset
@@ -130,9 +127,8 @@ The system follows a modular architecture with clear separation between data pro
 **Source:** [Heart Failure Prediction Dataset](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction) by Soriano, F. (2021)
 
 **Key Features:**
-- **918 records** with 11 clinical features
+- **918 records** with 11 features
 - **Target variable:** Heart disease presence (binary classification)
-- **Features include:** Age, chest pain type, blood pressure, cholesterol, ECG results, exercise capacity
 - **No preprocessing:** No missing values or similar. Everything is ready to go.
 
 <details>
@@ -265,9 +261,10 @@ for model, prediction in result.items():
 ```
 
 ### Web Interface
-1. Open frontend/index.html
-2. Input patient data through the form
-3. View prediction results
+1. Start API
+2. Open frontend/index.html
+3. Input patient data through the form
+4. View prediction results
 
 ---
 
@@ -310,12 +307,8 @@ heart_failure_prediction
 
 ## Key Insights
 
-- Age and cholesterol are the strongest predictors of heart disease
-- Exercise-induced angina shows high correlation with positive cases
-- ST slope patterns provide crucial diagnostic information
-- NN Model achieves 89% accuracy
 - NN has worst ROC-AUC
-- The tuned Gradient boost model seems to be slightly better the the rest
+- The tuned Gradient boost model slightly better then default
 
 ---
 ## Analytics Dashboard
