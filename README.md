@@ -246,24 +246,32 @@ docker-compose up --build
 ```python
 import requests
 
-# Sample prediction request
+# API endpoint
+url = "http://127.0.0.1:8000/predict"
+
+# Patient data
 data = {
-    "age": 54,
-    "sex": "M",
-    "chest_pain_type": "ATA",
-    "resting_bp": 120,
-    "cholesterol": 188,
-    "fasting_bs": 0,
-    "resting_ecg": "Normal",
-    "max_hr": 113,
-    "exercise_angina": "N",
-    "oldpeak": 1.4,
-    "st_slope": "Flat"
+    "Age": 54,
+    "Sex": 1,  
+    "ChestPainType": 0, 
+    "RestingBP": 108,
+    "Cholesterol": 267,
+    "FastingBS": 0,  
+    "RestingECG": 1,  
+    "MaxHR": 167,
+    "ExerciseAngina": 0,  
+    "Oldpeak": 0,
+    "ST_Slope": 2  
 }
 
-response = requests.post("http://localhost:8000/predict", json=data)
-prediction = response.json()
-print(f"Heart Disease Risk: {prediction['risk_level']}")
+# Make prediction
+response = requests.post(url, json=data)
+result = response.json()
+
+# Print results
+for model, prediction in result.items():
+    risk = "Heart Disease" if prediction else "Normal"
+    print(f"{model}: {risk}")
 ```
 
 ### Web Interface
@@ -305,15 +313,13 @@ heart-disease-prediction/
 
 ---
 ## Analytics Dashboard
+The complete dataset is used in PowerBi.
+In this report the Random Forest performs the best.
+The large discrepancy is probably due to overfitting.
+This could be changed with more data or regularization.
 
-Power BI dashboard providing comprehensive analysis of:
-
-- **Model Performance Metrics** - ROC curves, confusion matrices, feature importance
-- **Dataset Exploration** - Distribution analysis, correlation heatmaps, demographic breakdowns  
-- **Prediction Analytics** - Real-time prediction tracking, risk assessment visualizations
-- **Clinical Insights** - Patient cohort analysis, risk factor trends
-
-![Dashboard Preview](./images/powerbi-dashboard.png)
+Power BI dashboard:
+![Dashboard Preview](./images/report.png)
 
 ---
 ## License

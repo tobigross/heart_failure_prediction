@@ -6,7 +6,8 @@ import warnings
 import os
 from ml.model import HeartModel
 from sqlalchemy import create_engine, text
-
+from dotenv import load_dotenv
+load_dotenv()
 
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)
@@ -65,11 +66,13 @@ class MiniModelETL:
     """ETL pipeline for comparing multiple model predictions."""
     
     def __init__(self):
+        
         self.COLUMNS_PATH = "ml/training_columns.txt"
         self.DATA_PATH = "data/heart.csv"
+        port_value = os.environ.get("DB_PORT")
         self.db_config = {
     "host": os.environ.get("DB_HOST", ""),
-    "port": int(os.environ.get("DB_PORT", "")),
+    "port": int(port_value),
     "dbname": os.environ.get("DB_NAME", ""),
     "user": os.environ.get("DB_USER", ""),
     "password": os.environ.get("DB_PASSWORD", "")
@@ -249,6 +252,7 @@ class MiniModelETL:
 
 def main():
     """Entry point for the ETL pipeline."""
+    
     etl = MiniModelETL()
     etl.run()
 

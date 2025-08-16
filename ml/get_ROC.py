@@ -3,7 +3,7 @@ import torch
 import joblib
 import os
 from model import HeartModel
-from sklearn.metrics import roc_auc_score
+from sklearn.metrics import roc_auc_score, classification_report
 from sklearn.model_selection import train_test_split
 import numpy as np
 
@@ -34,5 +34,6 @@ with torch.no_grad():
     outputs = torch_model(X_test_tensor)
     _, predicted = torch.max(outputs, 1)    
 y_pred = predicted.numpy()
+print(classification_report(y_test, sk_model.predict(X_test)))
 print("ROC-AUC sklearn:", roc_auc_score(y_test, sk_model.predict_proba(X_test)[:, 1]))
 print("ROC-AUC torch:", roc_auc_score(y_test, y_pred))

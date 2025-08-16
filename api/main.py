@@ -79,7 +79,21 @@ def predict(data: PatientData):
     try:
         conn = psycopg2.connect(**DB_CONFIG)
         cur = conn.cursor()
-        
+        #convert to string for DB insertion
+        sex_string = "M" if data.Sex == 1 else "F"
+
+        chest_pain_map = {0: "TA", 1: "ATA", 2: "NAP", 3: "ASY"}
+        chest_pain_string = chest_pain_map.get(data.ChestPainType, "Unknown")
+    
+        ecg_map = {0: "Normal", 1: "ST", 2: "LVM"}
+        ecg_string = ecg_map.get(data.RestingECG, "Unknown")
+    
+        slope_map = {0: "Up", 1: "Flat", 2: "Down"}
+        slope_string = slope_map.get(data.ST_Slope, "Unknown")
+    
+        exercise_angina_string = "Y" if data.ExerciseAngina == 1 else "N"
+   
+
         # Insert into your existing table (adjust column names to match your table)
         cur.execute("""
     INSERT INTO heart_predictions_mini (
@@ -90,12 +104,22 @@ def predict(data: PatientData):
                 "prediction_gradient_boost_tuned"
             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, (
-    data.Age, data.Sex, data.ChestPainType, data.RestingBP, 
-    data.Cholesterol, data.FastingBS, data.RestingECG, 
-    data.MaxHR, data.ExerciseAngina, data.Oldpeak, 
-    data.ST_Slope, pytorch_pred, int(sklearn1_pred), 
-    int(sklearn2_pred), int(sklearn3_pred)
-))
+        data.Age, 
+        sex_string,          
+        chest_pain_string,    
+        data.RestingBP, 
+        data.Cholesterol,
+        data.FastingBS,    
+        ecg_string,           
+        data.MaxHR, 
+        exercise_angina_string, 
+        data.Oldpeak,
+        slope_string,         
+        pytorch_pred, 
+        int(sklearn1_pred),
+        int(sklearn2_pred), 
+        int(sklearn3_pred)
+    ))
         
         conn.commit()
         conn.close()
