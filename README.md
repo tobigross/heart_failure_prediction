@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python) ![FastAPI](https://img.shields.io/badge/FastAPI-0.95-green?logo=fastapi) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-13-blue?logo=postgresql) ![PowerBI](https://img.shields.io/badge/PowerBI-Desktop-yellow?logo=microsoft-power-bi)
 
-An end-to-end machine learning application that predicts heart based on patient health data. This project contains a complete ML pipeline from data ingestion to model deployment.
+An end-to-end machine learning application that predicts heart disease based on patient health data. This project contains a complete ML pipeline from data ingestion to model deployment.
 
 ---
 
