@@ -30,7 +30,9 @@ An end-to-end machine learning application that predicts heart based on patient 
 
 **Tools & Deployment:**
 - Git for version control
-
+**Tools & Productivity:**
+- Git for version control
+- LLMs (ChatGPT, Claude, Gemini, Cursor) — used for rapid learning of new technologies (frontend, APIs, ETL pipelines, PostgreSQL) and informed decision-making on system design and best practices
 ---
 
 ## Model Performance
