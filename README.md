@@ -4,7 +4,7 @@
 
 An end-to-end machine learning application that predicts heart disease based on patient health data. This project contains a complete ML pipeline from data ingestion to model deployment.
 
-DISCLAIMER: This is a toy/educational project only. Do not use for real medical decisions. Always consult a healthcare professional for medical advice.
+This is a toy/educational project only. Do not use for real medical decisions. Always consult a healthcare professional for medical advice.
 ---
 
 ## Key Features
