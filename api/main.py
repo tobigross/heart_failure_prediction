@@ -11,17 +11,14 @@ import joblib
 import psycopg2
 sys.path.append(os.path.abspath(".."))
 from ml.model import HeartModel
-# -------- API Setup --------
-app = FastAPI()
 
+app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# -------- Database Config --------
 DB_CONFIG = {
     "host": os.environ.get("DB_HOST", "localhost"),
     "port": int(os.environ.get("DB_PORT", "5432")),
@@ -31,7 +28,7 @@ DB_CONFIG = {
 }
 
 
-# -------- Modelldefinition & Laden --------
+
 input_dim = 20
 pytorch_model = HeartModel(input_dim=input_dim)
 pytorch_model.load_state_dict(torch.load("ml/model_pytorch.pt", map_location=torch.device('cpu')))
@@ -41,10 +38,10 @@ pytorch_model.eval()
 sklearn_model1 = joblib.load("ml/model_sklearn.pkl") 
 sklearn_model2 = joblib.load("ml/gradient_boost_default.pkl")
 sklearn_model3 = joblib.load("ml/gradient_boost_tuned.pkl")
-#Laden der Features im encoding
+
 with open("ml/training_columns.txt") as f:
     TRAINING_COLUMNS = [line.strip() for line in f]
-# -------- Input-Schema für API --------
+
 class PatientData(BaseModel):
     Age: float
     Sex: int
@@ -65,10 +62,8 @@ def root():
 def predict(data: PatientData):
     input_dict = data.model_dump()
     df = pd.DataFrame([input_dict])
-     # One-hot-Encoding wie beim Training
     df_encoded = pd.get_dummies(df)
     df_encoded = df_encoded.reindex(columns=TRAINING_COLUMNS, fill_value=0)
-    # Reihenfolge & Spaltenstruktur ggf. anpassen!
     tensor = torch.tensor(df_encoded.to_numpy(), dtype=torch.float32)
     with torch.no_grad():
         output =pytorch_model(tensor)
@@ -79,7 +74,6 @@ def predict(data: PatientData):
     try:
         conn = psycopg2.connect(**DB_CONFIG)
         cur = conn.cursor()
-        #convert to string for DB insertion
         sex_string = "M" if data.Sex == 1 else "F"
 
         chest_pain_map = {0: "TA", 1: "ATA", 2: "NAP", 3: "ASY"}
@@ -94,7 +88,6 @@ def predict(data: PatientData):
         exercise_angina_string = "Y" if data.ExerciseAngina == 1 else "N"
    
 
-        # Insert into your existing table (adjust column names to match your table)
         cur.execute("""
     INSERT INTO heart_predictions_mini (
                 "Age", "Sex", "ChestPainType", "RestingBP", "Cholesterol", 
