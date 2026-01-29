@@ -123,7 +123,6 @@ class MiniModelETL:
                 models[name] = None
         
         # Load training columns
-        # Load training columns
         try:
             with open(self.COLUMNS_PATH) as f:
                 training_columns = [line.strip() for line in f if line.strip()]
@@ -237,7 +236,6 @@ class MiniModelETL:
             # Load to database
             self.load_to_database(data, predictions)
             
-            # Summary
             successful_models = [name for name, model in models.items() if model is not None]
             failed_models = [name for name, model in models.items() if model is None]
             
