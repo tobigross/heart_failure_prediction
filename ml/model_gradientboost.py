@@ -1,4 +1,3 @@
-# Simple retraining script
 from sklearn.ensemble import GradientBoostingClassifier
 import joblib
 import pandas as pd
@@ -9,7 +8,6 @@ import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 
 def objective(trial):
-    # Suggest hyperparameters
     n_estimators = trial.suggest_int('n_estimators', 50, 500)
     learning_rate = trial.suggest_float('learning_rate', 0.01, 0.3, log=True)
     max_depth = trial.suggest_int('max_depth', 2, 8)
@@ -23,14 +21,12 @@ def objective(trial):
         random_state=42
     )
 
-    # Cross-validation
     score = cross_val_score(model, X_train, y_train, cv=5, scoring='accuracy').mean()
     return score
-# Load and prepare data (same as your existing logic)
 data = pd.read_csv("data/heart.csv")
 data_encoded = pd.get_dummies(data.drop(columns=["HeartDisease"]))
 
-    # Load training columns
+    
 with open("ml/training_columns.txt") as f:
     training_columns = [line.strip() for line in f if line.strip()]
 
@@ -39,7 +35,7 @@ y = data["HeartDisease"]
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Train standard sklearn models (no custom classes)
+
 gb_default = GradientBoostingClassifier(random_state=42)
 gb_default.fit(X_train, y_train)
 joblib.dump(gb_default, "ml/gradient_boost_default.pkl")
